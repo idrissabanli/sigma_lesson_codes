@@ -41,7 +41,8 @@ INSTALLED_APPS = [
 
     # custom
     'core.apps.CoreConfig',
-
+    'accounts',
+    'stories',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +74,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'food_stories.wsgi.application'
-
+AUTH_USER_MODEL = 'accounts.User'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

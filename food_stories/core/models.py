@@ -1,3 +1,21 @@
 from django.db import models
 
-# Create your models here.
+
+class AbstractModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Contact(AbstractModel):
+    name = models.CharField('Adiniz', max_length=50)
+    email = models.EmailField('E-poct', max_length=30)
+    subject = models.CharField('Movzu', max_length=255)
+    message = models.TextField('Mesaj')
+
+    class Meta:
+        verbose_name = 'Elaqe'
+        verbose_name_plural = 'Elaqeler'
+
