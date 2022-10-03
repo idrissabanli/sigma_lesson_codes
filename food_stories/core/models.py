@@ -18,4 +18,9 @@ class Contact(AbstractModel):
     class Meta:
         verbose_name = 'Elaqe'
         verbose_name_plural = 'Elaqeler'
+        ordering = ('-name', 'created_at',)
+
+    
+    def __str__(self):
+        return f"{self.name} Subject: {self.subject}"
 

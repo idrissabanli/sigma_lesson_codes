@@ -1,3 +1,12 @@
 from django.shortcuts import render
+from stories.models import (
+    Recipe,
+)
 
-# Create your views here.
+
+def recipe_list_page(request):
+    recipes = Recipe.objects.all().order_by('-created_at',)
+    context = {
+        'recipe_list': recipes
+    }
+    return render(request, 'recipes.html', context)

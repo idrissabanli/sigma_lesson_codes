@@ -24,7 +24,7 @@ class Recipe(AbstractModel):
     '''
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, )
 
     title = models.CharField(max_length=127)
     short_description = models.CharField(max_length=255)
@@ -34,7 +34,7 @@ class Recipe(AbstractModel):
 
 
 class Comment(AbstractModel):
-    parent = models.ForeignKey('self', blank=True, on_delete=models.CASCADE)
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     content = models.CharField(max_length=255)
