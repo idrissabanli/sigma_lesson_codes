@@ -2,16 +2,15 @@ version: '3.1'
 
 services:
   db:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
+    image: postgres
+    ports: 
+      - 5432:5432
     restart: always
-    volumes:
-      - ./mydb/:/var/lib/mysql
-    ports:
-      - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: "12345"
-      MYSQL_DATABASE: "library_books"
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_USER: tech
+      POSTGRES_DB: stories
+
 
   adminer:
     image: adminer

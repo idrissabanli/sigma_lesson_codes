@@ -291,3 +291,62 @@ Traceback (most recent call last):
     raise FieldError(
 django.core.exceptions.FieldError: Unsupported lookup 'icontains' for CharField or join on the field not permitted, perhaps you meant icontains or contains?
 >>> Category.objects.filter(title__icontains=['c', 'd'])
+
+>>> from stories.models import *
+>>> Recipe.object.all()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: type object 'Recipe' has no attribute 'object'
+>>> Recipe.objects.all()
+<QuerySet [<Recipe: Recipe object (1)>]>
+>>> Recipe.objects.values()
+<QuerySet [{'id': 1, 'created_at': datetime.datetime(2022, 10, 10, 7, 31, 10, 601143, tzinfo=datetime.timezone.utc), 'updated_at': datetime.datetime(2022, 10, 10, 7, 31, 10, 601163, tzinfo=datetime.timezone.utc), 'author_id': 1, 'category_id': 1, 'title': 'Recipe #1', 'short_description': 'Recipe #1', 'description': 'Recipe #1', 'image': 'media/recipes/1_Fu3CXf4.png', 'cover_image': 'media/recipes/1_Alz3yyO.png'}]>
+>>> Recipe.objects.values()
+<QuerySet [{'id': 1, 'created_at': datetime.datetime(2022, 10, 10, 7, 31, 10, 601143, tzinfo=datetime.timezone.utc), 'updated_at': datetime.datetime(2022, 10, 10, 7, 31, 10, 601163, tzinfo=datetime.timezone.utc), 'author_id': 1, 'category_id': 1, 'title': 'Recipe #1', 'short_description': 'Recipe #1', 'description': 'Recipe #1', 'image': 'media/recipes/1_Fu3CXf4.png', 'cover_image': 'media/recipes/1_Alz3yyO.png'}, {'id': 2, 'created_at': datetime.datetime(2022, 10, 10, 7, 33, 40, 541429, tzinfo=datetime.timezone.utc), 'updated_at': datetime.datetime(2022, 10, 10, 7, 33, 40, 541448, tzinfo=datetime.timezone.utc), 'author_id': 1, 'category_id': 1, 'title': 'Recipe #2', 'short_description': 'Recipe #2', 'description': 'Recipe #2', 'image': 'media/recipes/1_irdTxgn.png', 'cover_image': 'media/recipes/1_oVWNG2h.png'}]>
+>>> Recipe.objects.values('id')
+<QuerySet [{'id': 1}, {'id': 2}]>
+>>> Recipe.objects.values('id', 'title')
+<QuerySet [{'id': 1, 'title': 'Recipe #1'}, {'id': 2, 'title': 'Recipe #2'}]>
+>>> Recipe.objects.values_list('id', 'title')
+<QuerySet [(1, 'Recipe #1'), (2, 'Recipe #2')]>
+>>> Recipe.objects.values_list('title', flat=True)
+<QuerySet ['Recipe #1', 'Recipe #2']>
+>>> Recipe.objects.values_list('title')
+<QuerySet [('Recipe #1',), ('Recipe #2',)]>
+>>> Recipe.objects.values_list('title', flat=True)
+<QuerySet ['Recipe #1', 'Recipe #2']>
+>>> Recipe.objects.values_list('author__username')
+<QuerySet [('idris',), ('idris',)]>
+>>> Recipe.objects.values_list('tags__title')
+<QuerySet [('Tag 1',), ('Tag 1',)]>
+>>> Recipe.objects.values_list('tags__title')
+<QuerySet [('Tag 1',), ('Tag 2',), ('Tag 1',), ('Tag 2',)]>
+>>> Recipe.objects.values_list('title', 'tags__title')
+<QuerySet [('Recipe #1', 'Tag 1'), ('Recipe #1', 'Tag 2'), ('Recipe #2', 'Tag 1'), ('Recipe #2', 'Tag 2')]>
+>>> Recipe.objects.all().count()
+2
+>>> recipes = Recipe.objects.filter(title__contains='1')
+>>> recipes
+<QuerySet [<Recipe: Recipe object (1)>]>
+>>> recipes = Recipe.objects.filter(title__contains='1', title__contains='2')
+  File "<console>", line 1
+SyntaxError: keyword argument repeated: title__contains
+>>> recipes = Recipe.objects.filter(title__contains='1', title__icontains='2')
+>>> recipes
+<QuerySet []>
+>>> recipes
+<QuerySet [<Recipe: Recipe object (1)>]>
+>>> recipes = Recipe.objects.filter(models.Q(title__contains='1') | models.Q(description__contains='2'))
+>>> recipes
+<QuerySet [<Recipe: Recipe object (2)>, <Recipe: Recipe object (1)>]>
+>>> Recipe.objects.aggregate(models.Count('title'))
+{'title__count': 2}
+>>> Recipe.objects.aggregate(models.Count('title'))['title_count']
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+KeyError: 'title_count'
+>>> Recipe.objects.aggregate(models.Count('title'))['title__count']
+2
+>>> Recipe.objects.filter(created_at__year__gte=2000)
+<QuerySet [<Recipe: Recipe object (2)>, <Recipe: Recipe object (1)>]>
+>>> 

@@ -5,7 +5,7 @@ from stories.models import (
 
 
 def recipe_list_page(request):
-    recipes = Recipe.objects.all().order_by('-created_at',)
+    recipes = Recipe.objects.all().order_by('-created_at', 'title')
     context = {
         'recipe_list': recipes
     }
