@@ -14,7 +14,7 @@ class Contact(AbstractModel):
     email = models.EmailField('E-poct', max_length=30)
     subject = models.CharField('Movzu', max_length=255)
     message = models.TextField('Mesaj')
-
+    
     class Meta:
         verbose_name = 'Elaqe'
         verbose_name_plural = 'Elaqeler'
@@ -23,4 +23,3 @@ class Contact(AbstractModel):
     
     def __str__(self):
         return f"{self.name} Subject: {self.subject}"
-
