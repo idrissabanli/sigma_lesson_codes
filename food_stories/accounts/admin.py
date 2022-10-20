@@ -13,7 +13,8 @@ class UserAdmin(BaseUserAdmin):
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined'),
+        'classes': ['collapse',]}),
     )
 
 # admin.site.unregister(BaseUserAdmin)
