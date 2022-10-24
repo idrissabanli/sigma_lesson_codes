@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static tags %}
 
 {% block content %}
 
@@ -27,20 +27,19 @@
                     <div class="col-md-6 col-lg-12 ftco-animate">
                         <div class="blog-entry d-lg-flex">
                             <div class="half">
-                                <a href="single.html" class="img d-flex align-items-end"
+                                <a href="{% url 'stories:recipe_detail' recipe.id %}" class="img d-flex align-items-end"
                                    style="background-image: url(images/image_1.jpg);">
                                     <div class="overlay"></div>
                                 </a>
                             </div>
                             <div class="text px-md-4 px-lg-5 half pt-3">
-                                <p class="meta d-flex"><span class="pr-3">Dessert</span><span class="ml-auto pl-3">March 01, 2018</span>
+                                <p class="meta d-flex"><span class="pr-3">Dessert</span><span class="ml-auto pl-3">{{ recipe.created_at|date:"F m, Y" }}</span>
                                 </p>
-                                <h3><a href="single.html">{{ recipe.title }}</a></h3>
-                                <p>A small river named Duden flows by their place and supplies it with the necessary
-                                    regelialia. It is a paradisematic country, in which roasted parts of sentences fly
-                                    into your mouth.
+                                <h3><a href="{% url 'stories:recipe_detail' recipe.id %}">{{ recipe.title }}</a></h3>
+                                <p>{{recipe.short_description|truncatechars:"3"}}
+                                {{ string|split_filter:"a" }}
                                 </p>
-                                <p class="mb-0"><a href="single.html" class="btn btn-primary">Read More <span
+                                <p class="mb-0"><a href="{% url 'stories:recipe_detail' recipe.id %}" class="btn btn-primary">Read More <span
                                         class="icon-arrow_forward ml-4"></span></a></p>
                             </div>
                         </div>

@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from core.views import home, about
-from stories.views import recipe_list_page
 
 
 urlpatterns = [
@@ -25,6 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home),
     path('about/', about),
-    path('recipes/', recipe_list_page),
+    path('', include('stories.urls', namespace='stories'))
 
 ]
