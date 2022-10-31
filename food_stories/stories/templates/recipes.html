@@ -39,8 +39,10 @@
                                 <p>{{recipe.short_description|truncatechars:"3"}}
                                 {{ string|split_filter:"a" }}
                                 </p>
+                                
                                 <p class="mb-0"><a href="{% url 'stories:recipe_detail' recipe.id %}" class="btn btn-primary">Read More <span
-                                        class="icon-arrow_forward ml-4"></span></a></p>
+                                        class="icon-arrow_forward ml-4"></span></a> <a href="{% url 'stories:like_post' recipe.id %}" class="btn btn-primary">Like</a></p>
+                                
                             </div>
                         </div>
                     </div>

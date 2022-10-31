@@ -26,13 +26,20 @@
     <link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    
 </head>
 
 <body>
 
     {% include 'includes/navbar.html' %}
 
-    
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
     {% block content %}
 
     {% endblock %}
