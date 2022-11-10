@@ -23,5 +23,6 @@ urlpatterns = [
     # path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('admin/', admin.site.urls),
     path('', include('stories.urls', namespace='stories')),
-    path('', include('core.urls', namespace='core'))
+    path('', include('core.urls', namespace='core')),
+    path('accounts/', include('accounts.urls', namespace='accounts'))
 ]
