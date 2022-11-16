@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from core.views import home, about
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -25,4 +27,4 @@ urlpatterns = [
     path('', include('stories.urls', namespace='stories')),
     path('', include('core.urls', namespace='core')),
     path('accounts/', include('accounts.urls', namespace='accounts'))
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -25,7 +25,7 @@ class Recipe(AbstractModel):
     '''
     This model for saving Recipe
     '''
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipes')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, )
 
