@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
+from django.urls import reverse_lazy
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -43,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'social_django',
+
     # custom
     'core.apps.CoreConfig',
     'accounts',
@@ -58,6 +61,31 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+LOGIN_URL = reverse_lazy('accounts:login')
+LOGIN_REDIRECT_URL = reverse_lazy('core:home')
+LOGOUT_URL = reverse_lazy('accounts:logout')
+LOGOUT_REDIRECT_URL = reverse_lazy('accounts:login')
+
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+SOCIAL_AUTH_FACEBOOK_KEY = 673206077692528      # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = 'f116ed811ecd659770ce9c591f5f7c90'  # App Secret
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '604412369734-bppuio5bd5snvoh00tdapk9v4v58rr8b.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_friends']
+# SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+#     'fields': 'id,name,email,picture',
+# }
+
 
 JET_THEMES = [
     {
