@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-c1)v4t&=w0m(=0z@upzbx*$1tq5@60_l9rwqp03qx$(b&35!q2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     # defualt
     # 'jet.dashboard',
     # 'jet',
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'social_django',
+    
 
     # custom
     'core.apps.CoreConfig',
@@ -53,13 +55,17 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'food_stories.middleware.force_default_lang.force_default_language_middleware',
+    'food_stories.middleware.block_ip_addresses.BlackListIPAdressMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -178,13 +184,25 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'az'
+
+from django.utils.translation import gettext_lazy as _
+
+
+LANGUAGES = (
+    ('az', _('Azerbaijan')),
+    ('en', _('English')),
+)
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_TZ = True
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
 
 
 # Static files (CSS, JavaScript, Images)
@@ -211,4 +229,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'idris.sabanli@gmail.com'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = 'sxoofvjpjrnfswgt'

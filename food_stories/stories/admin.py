@@ -1,5 +1,6 @@
 from django.contrib import admin
 from stories.models import Comment, Recipe, Category, Tag
+from modeltranslation.admin import TranslationAdmin
 
 
 admin.site.register([Comment, Category, Tag])
@@ -15,7 +16,7 @@ class CommentAdminInline(admin.TabularInline):
 
 
 @admin.register(Recipe)
-class RecipeAdmin(admin.ModelAdmin):
+class RecipeAdmin(TranslationAdmin):
     inlines = (CommentAdminInline,)
     list_display = (
         'id',

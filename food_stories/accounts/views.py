@@ -8,12 +8,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import get_user_model
-
+from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
+from django.views.generic import TemplateView
 
 from stories.models import Recipe
 from accounts.tokens import account_activation_token
-from accounts.forms import RegisterForm, LoginForm
-
+from accounts.forms import (
+    RegisterForm, LoginForm, UserPasswordChangeForm, UserPasswordResetForm,
+    UserSetPasswordForm
+)
 from accounts.tasks import send_confirmation_mail
 
 User = get_user_model()
@@ -33,25 +36,32 @@ def register(request):
     }
     return render(request, 'register.html', context)
 
-def login(request):
-    next_page = request.GET.get('next', reverse_lazy('core:home'))
-    if request.user.is_authenticated:
-        return redirect(reverse_lazy('core:home'))
-    form = LoginForm()
-    if request.method == 'POST':
-        form = LoginForm(data=request.POST)
-        if form.is_valid():
-            user = authenticate(request=request, username=form.cleaned_data['username'],
-            password=form.cleaned_data['password'])
-            if user:
-                django_login(request, user)
-                return redirect(next_page)
-            messages.add_message(request, messages.ERROR, 'User not found!')
+# def login(request):
+#     next_page = request.GET.get('next', reverse_lazy('core:home'))
+#     if request.user.is_authenticated:
+#         return redirect(reverse_lazy('core:home'))
+#     form = LoginForm()
+#     if request.method == 'POST':
+#         form = LoginForm(data=request.POST)
+#         if form.is_valid():
+#             user = authenticate(request=request, username=form.cleaned_data['username'],
+#             password=form.cleaned_data['password'])
+#             if user:
+#                 django_login(request, user)
+#                 return redirect(next_page)
+#             messages.add_message(request, messages.ERROR, 'User not found!')
+#     context = {
+#         'form': form
+#     }
+#     return render(request, 'login.html', context)
 
-    context = {
-        'form': form
-    }
-    return render(request, 'login.html', context)
+class UserLoginView(LoginView):
+    template_name = 'login.html'
+    form_class = LoginForm
+    redirect_authenticated_user = False
+
+    # def dispatch(self, request, )
+
 
 def logout(request):
     django_logout(request)
@@ -76,3 +86,31 @@ def activate(request, uidb64, token):
     else:
         messages.add_message(request, messages.ERROR, 'Account not activated')
         return redirect(reverse_lazy('core:home'))
+
+
+
+class UserPasswordChangeView(PasswordChangeView):
+    template_name = 'change_password.html'
+    form_class = UserPasswordChangeForm
+    success_url = reverse_lazy('accounts:login')
+
+    def form_valid(self, form):
+        django_logout(self.request)
+        return super().form_valid(form)
+
+
+class UserPasswordResetView(PasswordResetView):
+    template_name = 'reset_password.html'
+    form_class = UserPasswordResetForm
+    email_template_name = 'password-reset-email.html'
+    success_url = reverse_lazy('accounts:password-reset-done')
+
+
+class UserPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'confirm_password.html'
+    form_class = UserSetPasswordForm
+    success_url = reverse_lazy('accounts:password-reset-done')
+
+
+class UserPasswordRestDoneView(TemplateView):
+    template_name = 'password_reset_done.html'

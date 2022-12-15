@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="http:////netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+{% endblock %}
+
 {% block content %}
     <section class="ftco-section ftco-no-pt ">
         <div class="container">
@@ -57,7 +62,7 @@
                                                                                       aria-hidden="true"></i></button>
                                     </div>
 
-                                    <img src="images/blog-1.jpg" class="img-fluid" alt="Colorlib Template">
+                                    <img src="{{ recipe.image.url }}" class="img-fluid" alt="Colorlib Template">
                                 </a>
                                 <div class="text pt-3">
                                     <p class="meta d-flex"><span class="pr-3">Dessert</span><span class="ml-auto pl-3">March 01, 2018</span>

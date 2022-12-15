@@ -1,5 +1,11 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.forms import (
+    AuthenticationForm, UsernameField, PasswordChangeForm, 
+    password_validation, PasswordResetForm,
+    SetPasswordForm
+)
 
 User = get_user_model()
 
@@ -60,8 +66,8 @@ class RegisterForm(forms.ModelForm):
         return user
 
 
-class LoginForm(forms.Form):
-    username = forms.CharField(max_length=40, widget=forms.TextInput(attrs={
+class LoginForm(AuthenticationForm):
+    username = UsernameField(max_length=40, widget=forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Username'
             }))
@@ -69,6 +75,66 @@ class LoginForm(forms.Form):
                 'class': 'form-control',
                 'placeholder': 'Password'
             }))
+    
 
+class UserPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        label=_("Email"),
+        max_length=254,
+        widget=forms.EmailInput(attrs={"autocomplete": "email",
+                'class': 'form-control',
+                'placeholder': 'Email'
+        }),
+    )
+
+
+
+class UserPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        label=_("Old password"),
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "current-password", "autofocus": True,
+                'class': 'form-control',
+                'placeholder': 'Old password'}
+        ),
+    )
+    new_password1 = forms.CharField(
+        label=_("New password"),
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password", 
+                'class': 'form-control',
+                'placeholder': 'New Password',
+        }),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        label=_("New password confirmation"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password",
+                'class': 'form-control',
+                'placeholder': 'New password confirmation'
+            }),
+    )
+
+
+class UserSetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label=_("New password"),
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password", 
+                'class': 'form-control',
+                'placeholder': 'New Password',
+        }),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        label=_("New password confirmation"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password",
+                'class': 'form-control',
+                'placeholder': 'New password confirmation'
+            }),
+    )
         
 
