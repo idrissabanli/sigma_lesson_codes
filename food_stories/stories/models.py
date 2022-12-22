@@ -47,7 +47,9 @@ class Recipe(AbstractModel):
     #     self.slug = self.title + self.id
     #     super().save()
 
-a = Recipe(title='lskdfndskl')
+    def author_name(self):
+        return self.author.username
+
 
 class Comment(AbstractModel):
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)

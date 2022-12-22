@@ -33,4 +33,5 @@ urlpatterns += [
     # path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('admin/', admin.site.urls),
     path('social-auth/', include('social_django.urls', namespace="social")),
+    path('api/', include('stories.api.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

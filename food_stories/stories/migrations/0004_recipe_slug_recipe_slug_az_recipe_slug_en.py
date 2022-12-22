@@ -25,5 +25,5 @@ class Migration(migrations.Migration):
             model_name='recipe',
             name='slug_en',
             field=models.SlugField(max_length=150, null=True),
-        ),
+        ), 
     ]
