@@ -12,6 +12,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class RecipeCreateSerializer(serializers.ModelSerializer):
     slug = serializers.SlugField(read_only=True)
+    author = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Recipe
@@ -29,6 +30,12 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
         )
+
+    def validate(self, attr):
+        request = self.context['request']
+        attr['author'] = request.user
+        return super().validate(attr)
+
 
 
 class RecipeSerializer(serializers.ModelSerializer):

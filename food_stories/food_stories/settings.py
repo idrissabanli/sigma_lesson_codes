@@ -145,6 +145,20 @@ TEMPLATES = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=20),
+    "TOKEN_OBTAIN_SERIALIZER": "accounts.api.serializers.UserTokenSerializer",
+}
+
 WSGI_APPLICATION = 'food_stories.wsgi.application'
 AUTH_USER_MODEL = 'accounts.User'
 

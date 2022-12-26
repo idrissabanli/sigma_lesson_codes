@@ -1,10 +1,13 @@
 # from rest_framework.response import Response
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from stories.models import Category, Recipe
 from stories.api.serializers import (
     CategorySerializer, RecipeSerializer,
     RecipeCreateSerializer
 )
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+
 from rest_framework.decorators import api_view
 from rest_framework.generics import CreateAPIView, ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
@@ -24,6 +27,7 @@ def categories(request):
 class RecipeAPIView(ListCreateAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeCreateSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_serializer_class(self):
         if self.request.method == "POST":
