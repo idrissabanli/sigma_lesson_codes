@@ -1,10 +1,11 @@
 # from rest_framework.response import Response
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from stories.models import Category, Recipe
+from stories.models import Category, Recipe, Tag
 from stories.api.serializers import (
     CategorySerializer, RecipeSerializer,
-    RecipeCreateSerializer
+    RecipeCreateSerializer,
+    TagSerializer
 )
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
@@ -22,6 +23,11 @@ def categories(request):
     #         'image': cat.image.url
     #     })
     return JsonResponse(data=serializer.data, safe=False)
+
+
+class TagListAPIView(ListAPIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
 
 
 class RecipeAPIView(ListCreateAPIView):

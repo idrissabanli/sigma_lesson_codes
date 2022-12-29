@@ -24,3 +24,4 @@ class UserTokenSerializer(TokenObtainPairSerializer):
         user_serializer = UserProfileSerializer(self.user)
         data.update(user_serializer.data)
         return data
+

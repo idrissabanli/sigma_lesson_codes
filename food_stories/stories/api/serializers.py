@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from stories.models import Category, Recipe
+from stories.models import Category, Recipe, Tag
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,6 +8,15 @@ class CategorySerializer(serializers.ModelSerializer):
             'id',
             'title',
             'image',
+        )
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model =  Tag
+        fields = (
+            'id',
+            'title',
         )
 
 class RecipeCreateSerializer(serializers.ModelSerializer):
