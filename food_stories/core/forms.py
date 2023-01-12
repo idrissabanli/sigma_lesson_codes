@@ -41,26 +41,21 @@ class ContactForm(forms.ModelForm):
             },
         }
 
-    # def clean_email(self):
-    #     value = self.cleaned_data['email'] 
-    #     # '''
-    #     # cleanad_data = {
-    #     #     'name': 'idris',
-    #     #     'email': 'idris@gmail.com',
-    #     #     ... 
-    #     # }
-    #     # '''
-    #     if not value.endswith('gmail.com'):
-    #         raise forms.ValidationError('mail unvani gmail olmalidir')
-    #     return value
+    def clean_email(self):
+        value = self.cleaned_data['email'] 
+        if not value.endswith('gmail.com'):
+            raise forms.ValidationError('mail unvani gmail olmalidir')
+        return value
 
     def clean_name(self):
         name = self.cleaned_data['name']
         return name.lower()
 
-    def clean(self):
-        value = self.cleaned_data['email'] 
-        if not value.endswith('gmail.com'):
-            raise forms.ValidationError('mail unvani gmail olmalidir')
-        return super().clean()
+    # def clean(self):
+    #     result = super().clean()
+    #     print(self.cleaned_data)
+    #     value = self.cleaned_data['email'] 
+    #     if not value.endswith('gmail.com'):
+    #         raise forms.ValidationError('mail unvani gmail olmalidir')
+    #     return result
 

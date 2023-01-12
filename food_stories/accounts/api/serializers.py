@@ -16,6 +16,22 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'email'
         )
 
+class UserProfileResponseSerializer(serializers.ModelSerializer):
+    access = serializers.CharField()
+    refresh = serializers.CharField()
+
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+            'access',
+            'refresh',
+        )
+
 
 class UserTokenSerializer(TokenObtainPairSerializer):
     
@@ -24,4 +40,5 @@ class UserTokenSerializer(TokenObtainPairSerializer):
         user_serializer = UserProfileSerializer(self.user)
         data.update(user_serializer.data)
         return data
+
 
