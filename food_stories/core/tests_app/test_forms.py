@@ -35,5 +35,3 @@ class ContactFormTest(TestCase):
     @classmethod
     def tearDownClass(cls):
         pass
-    
-    
