@@ -11,7 +11,12 @@ services:
       POSTGRES_USER: tech
       POSTGRES_DB: stories
 
-
+  redis:
+    image: redis
+    ports: 
+      - 6379:6379
+    restart: always
+    
   adminer:
     image: adminer
     restart: always

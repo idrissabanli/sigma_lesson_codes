@@ -23,3 +23,13 @@ class Contact(AbstractModel):
 
     def __str__(self):
         return f"{self.name} Subject: {self.subject}"
+
+
+class Subsciber(AbstractModel):
+    email = models.EmailField(max_length=40)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Subcriber'
+        verbose_name_plural = 'Subcribers'
+        ordering = ('created_at',)

@@ -1,4 +1,4 @@
 from django.contrib import admin
-from core.models import Contact
+from core.models import Contact, Subsciber
 
-admin.site.register(Contact)
+admin.site.register([Contact,Subsciber,])

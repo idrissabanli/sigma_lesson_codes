@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from core.models import Contact
@@ -43,7 +44,6 @@ class ContactView(CreateView):
     def form_valid(self, form):
         messages.add_message(self.request, messages.SUCCESS, 'Tesdiqlendi!!')
         return super().form_valid(form)
-
 
 
 
