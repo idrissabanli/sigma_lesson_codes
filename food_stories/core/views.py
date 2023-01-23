@@ -31,6 +31,8 @@ def contact(request):
     return render(request, 'contact.html', context)
 
 
+
+
 class ContactView(CreateView):
     form_class = ContactForm
     template_name = 'contact.html'

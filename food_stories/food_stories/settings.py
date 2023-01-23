@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c1)v4t&=w0m(=0z@upzbx*$1tq5@60_l9rwqp03qx$(b&35!q2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if os.environ.get('DEBUG') else True
 
 ALLOWED_HOSTS = ['*']
 
@@ -174,11 +174,11 @@ AUTH_USER_MODEL = 'accounts.User'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'stories',
-        'USER': 'tech',
-        'PASSWORD': 12345,
-        'HOST': 'localhost',
-        'PORT': 5432
+        'NAME': os.environ.get('POSTGRES_DB', 'stories'),
+        'USER': os.environ.get('POSTGRES_USER', 'tech'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '12345'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
+        'PORT': os.environ.get('POSTGRES_PORT', '5432')
     }
 }
 
@@ -231,9 +231,12 @@ LOCALE_PATHS = [
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
+if DEBUG:
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static',
+    ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # 'data' is my media folder
 MEDIA_URL = '/media/'
@@ -253,5 +256,5 @@ EMAIL_HOST_USER = 'idris.sabanli@gmail.com'
 EMAIL_HOST_PASSWORD = 'sxoofvjpjrnfswgt'
 
 
-CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_BROKER_URL = f"redis://{os.environ.get('REDIS_HOST', 'localhost')}:6379"
+CELERY_RESULT_BACKEND = f"redis://{os.environ.get('REDIS_HOST', 'localhost')}:6379"
