@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import os
+import time
 from pathlib import Path
 from django.urls import reverse_lazy
 
@@ -57,6 +58,8 @@ INSTALLED_APPS = [
     'stories',
     'django_celery_beat',
 ]
+
+time.sleep(15)
 
 MIDDLEWARE = [
     'food_stories.middleware.force_default_lang.force_default_language_middleware',
